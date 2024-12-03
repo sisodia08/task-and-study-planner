@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login page for Task & Study Planner application.">
+    <title>Login - Task & Study Planner</title>
+    <script src="../main.js/script.js"></script>
+
+    <link rel="stylesheet" href="../main.css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="light-mode"> <!-- Default mode is light -->
+    <!-- Header Section -->
+    <header>
+        <h1>Task & Study Planner</h1>
+
+        <!-- Icons container on the top-right corner -->
+        <div class="icon-bar">
+            <!-- Dark/Light Mode Icon -->
+            <i class="fa-solid fa-moon" id="modeIcon" onclick="toggleMode()" aria-label="Toggle dark/light mode"></i>
+            <!-- Add more icons like Settings and Menu if needed -->
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <input type="text" id="username" placeholder="Username" required aria-label="Username">
+            <input type="password" id="password" placeholder="Password" required aria-label="Password">
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="signup.html" aria-label="Sign Up page">Sign Up</a></p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Task & Study Planner. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to toggle between light and dark mode
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            body.classList.toggle('dark-mode');
+            updateIcon();  // Change the icon based on mode
+        }
+
+        // Function to update the mode icon
+        function updateIcon() {
+            const modeIcon = document.getElementById("modeIcon");
+            if (document.body.classList.contains('dark-mode')) {
+                modeIcon.classList.remove('fa-moon');
+                modeIcon.classList.add('fa-sun');  // Change to sun icon for dark mode
+            } else {
+                modeIcon.classList.remove('fa-sun');
+                modeIcon.classList.add('fa-moon');  // Change to moon icon for light mode
+            }
+        }
+
+        // Handle login form submission
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username && password) {
+                window.location.href = "welcome.html";
+            } else {
+                alert("Please enter valid credentials.");
+            }
+        }
+    </script>
+    <!-- Link to css-->
+    <link rel="stylesheet" href="styles.css">
+    <!--link to JavaScript -->
+    <script src="script.js"></script>
+    <script src="server.js"></script>
+
+</body>
+</html>

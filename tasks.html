@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tasks - Task & Study Planner</title>
+    <script src="../main.js/script.js"></script>
+
+    <link rel="stylesheet" href="../main.css/styles.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome Icons -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Manage Your Tasks</h1>
+
+        <!-- Top-right icons (profile and dark/light mode toggle) -->
+        <div class="top-right-icons">
+            <div class="profile-container">
+                <img src="placeholder.jpg" alt="Profile Picture" id="profilePicture" class="profile-picture" onclick="toggleProfileOptions()">
+
+                
+                <!-- Profile Dropdown -->
+                <div id="profileDropdown" class="dropdown-content">
+                    <a href="profile.html">View Profile</a>
+                    <a href="logout.html">Log Out</a>
+                </div>
+            </div>
+
+            <!-- Dark/Light Mode Toggle Icon -->
+            <i class="fas fa-sun" id="lightModeIcon" onclick="toggleDarkMode()"></i>
+            <i class="fas fa-moon" id="darkModeIcon" onclick="toggleDarkMode()"></i>
+         <i class="fa-solid fa-bars" id="menuIcon"></i>
+            
+        </div>
+    </header>
+
+    <!-- Task Management Container -->
+    <div class="tasks-container">
+        <h2>Add a New Task</h2>
+        
+        <!-- Task Input Form -->
+        <form id="taskForm">
+            <input type="text" id="taskName" placeholder="Task Name" required>
+            <input type="text" id="taskDescription" placeholder="Task Description">
+            
+            <label for="priority">Priority:</label>
+            <select id="priority" required>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+            
+            <label for="reminderDate">Set Reminder Date:</label>
+            <input type="date" id="reminderDate" required>
+
+            <label for="reminderTime">Set Reminder Time:</label>
+            <input type="time" id="reminderTime" required>
+
+            <label for="color">Select Custom Task Color (optional):</label>
+            <input type="color" id="color" value="#ffffff">
+
+            <button type="button" onclick="addTask()">Add Task</button>
+        </form>
+
+        <!-- Task List Section -->
+        <h2>Current Tasks</h2>
+        <div id="taskList" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;"></div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Task & Study Planner. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Task Management -->
+    <script>
+        const taskList = document.getElementById("taskList");
+        let taskCount = 0; // Counter for tasks
+
+        // Function to get color based on priority
+        function getColorByPriority(priority) {
+            switch(priority) {
+                case 'high': return '#ffeb3b';  // Yellow for high priority
+                case 'medium': return '#ff9800'; // Orange for medium priority
+                case 'low': return '#4caf50';    // Green for low priority
+                default: return '#ffffff';        // Default to white
+            }
+        }
+
+        // Function to add a new task
+        function addTask() {
+            const taskName = document.getElementById("taskName").value;
+            const taskDescription = document.getElementById("taskDescription").value;
+            const priority = document.getElementById("priority").value;
+            const reminderDate = document.getElementById("reminderDate").value;
+            const reminderTime = document.getElementById("reminderTime").value;
+            const customColor = document.getElementById("color").value;
+
+            if (taskName) {
+                taskCount++; // Increment task count
+                const taskItem = document.createElement("div");
+                taskItem.classList.add("task-item");
+                // Set color based on priority or use custom color if specified
+                taskItem.style.backgroundColor = customColor || getColorByPriority(priority);
+
+                taskItem.innerHTML = `
+                    <span class="task-number">${taskCount}.</span>
+                    <h3>${taskName}</h3>
+                    <p>${taskDescription}</p>
+                    <p><strong>Priority:</strong> ${priority}</p>
+                    <p><strong>Reminder:</strong> ${reminderDate} ${reminderTime}</p>
+                    <button onclick="editTask(this)">Edit</button>
+                    <button onclick="deleteTask(this)">Delete</button>
+                `;
+
+                taskList.appendChild(taskItem);
+
+                // Clear the form after adding a task
+                document.getElementById("taskForm").reset();
+            } else {
+                alert("Please enter a task name.");
+            }
+        }
+
+        // Function to edit a task
+        function editTask(button) {
+            const taskItem = button.parentElement;
+            const taskNameElement = taskItem.querySelector("h3");
+            const taskDescriptionElement = taskItem.querySelectorAll("p")[0];
+            const reminderElement = taskItem.querySelectorAll("p")[1];
+
+            // Get current values
+            const taskName = taskNameElement.innerText;
+            const taskDescription = taskDescriptionElement.innerText;
+            const reminderParts = reminderElement.innerText.split(" ");
+            const reminderDate = reminderParts[1]; // assuming format is "Reminder: YYYY-MM-DD"
+            const reminderTime = reminderParts[2]; // assuming format is "HH:MM"
+
+            // Create input fields for editing
+            taskNameElement.innerHTML = `<input type="text" value="${taskName}" />`;
+            taskDescriptionElement.innerHTML = `<input type="text" value="${taskDescription}" />`;
+            reminderElement.innerHTML = `
+                Reminder: 
+                <input type="date" value="${reminderDate}" />
+                <input type="time" value="${reminderTime}" />
+            `;
+
+            // Change the button to "Save"
+            button.innerText = "Save";
+            button.setAttribute("onclick", "saveTask(this)");
+        }
+
+        // Function to save the edited task
+        function saveTask(button) {
+            const taskItem = button.parentElement;
+            const taskNameInput = taskItem.querySelector("h3 input").value;
+            const taskDescriptionInput = taskItem.querySelectorAll("p input")[0].value;
+            const reminderDateInput = taskItem.querySelectorAll("p input")[1].value;
+            const reminderTimeInput = taskItem.querySelectorAll("p input")[2].value;
+
+            // Update the task item with new values
+            taskItem.querySelector("h3").innerText = taskNameInput;
+            taskItem.querySelectorAll("p")[0].innerText = taskDescriptionInput;
+            taskItem.querySelectorAll("p")[1].innerText = `Reminder: ${reminderDateInput} ${reminderTimeInput}`;
+
+            // Reset the button to "Edit"
+            button.innerText = "Edit";
+            button.setAttribute("onclick", "editTask(this)");
+        }
+
+        // Function to delete a task
+        function deleteTask(button) {
+            button.parentElement.parentElement.remove();
+            taskCount--; // Decrement task count
+            updateTaskNumbers(); // Update the task numbers
+        }
+
+        // Function to update task numbers after deletion
+        function updateTaskNumbers() {
+            const tasks = document.querySelectorAll('.task-item');
+            tasks.forEach((task, index) => {
+                const taskNumberElement = task.querySelector('.task-number');
+                taskNumberElement.innerText = index + 1 + '.'; // Reassign task number
+            });
+            taskCount = tasks.length; // Update task count
+        }
+
+        // Dark/Light Mode Toggle Functions
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            document.getElementById("lightModeIcon").classList.toggle("hidden");
+            document.getElementById("darkModeIcon").classList.toggle("hidden");
+        }
+    </script>
+    <!-- Link to css-->
+    <link rel="stylesheet" href="styles.css">
+    <!--link to JavaScript -->
+    <script src="script.js"></script>
+    <script src="server.js"></script>
+
+</body>
+</html>

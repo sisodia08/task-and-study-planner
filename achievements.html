@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - Task & Study Planner</title>
+    <script src="../main.js/script.js"></script>
+
+    <link rel="stylesheet" href="../main.css/styles.css"> <!-- Link to external CSS file -->
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* Soft background color */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4); /* Pastel gradient */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .achievements-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #ff6f61; /* Pastel Coral */
+            margin-bottom: 15px;
+        }
+
+        .achievement {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+
+        .achievement:hover {
+            background-color: #fff0f0; /* Light hover effect */
+        }
+
+        .achievement img {
+            width: 50px; /* Badge size */
+            height: 50px; /* Badge size */
+            margin-right: 15px;
+        }
+
+        .achievement p {
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #ff6f61; /* Pastel Coral */
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Your Achievements</h1>
+    </header>
+
+    <!-- Achievements Container -->
+    <div class="achievements-container">
+        <h2>Earned Achievements</h2>
+        
+        <div id="achievementList">
+            <!-- Example Achievement -->
+            <div class="achievement">
+                <img src="badge1.png" alt="Achievement Badge 1">
+                <div>
+                    <p><strong>Task Master:</strong> Completed 10 tasks!</p>
+                </div>
+            </div>
+            <div class="achievement">
+                <img src="badge2.png" alt="Achievement Badge 2">
+                <div>
+                    <p><strong>Productivity Guru:</strong> Studied for 20 hours!</p>
+                </div>
+            </div>
+            <!-- More achievements will be dynamically generated -->
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Task & Study Planner. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Achievements -->
+    <script>
+        // Example achievements data (could be dynamically fetched from a database)
+        const achievements = [
+            { name: "Task Master", description: "Completed 10 tasks!", badge: "badge1.png" },
+            { name: "Productivity Guru", description: "Studied for 20 hours!", badge: "badge2.png" },
+            // Add more achievements as needed
+        ];
+
+        const achievementList = document.getElementById("achievementList");
+
+        // Function to display achievements
+        function displayAchievements() {
+            achievements.forEach(achievement => {
+                const achievementItem = document.createElement("div");
+                achievementItem.classList.add("achievement");
+
+                achievementItem.innerHTML = `
+                    <img src="${achievement.badge}" alt="${achievement.name} Badge">
+                    <div>
+                        <p><strong>${achievement.name}:</strong> ${achievement.description}</p>
+                    </div>
+                `;
+                achievementList.appendChild(achievementItem);
+            });
+        }
+
+        // Call the function to display achievements on page load
+        displayAchievements();
+    </script>
+    <!-- Link to css-->
+     <link rel="stylesheet" href="styles.css">
+    <!--link to JavaScript -->
+    <script src="script.js"></script>
+    <script src="server.js"></script>
+
+</body>
+</html>

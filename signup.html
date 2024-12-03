@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Task & Study Planner</title>
+    <script src="../main.js/script.js"></script>
+
+    <link rel="stylesheet" href="../main.css/styles.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="light-mode"> <!-- Default mode is light -->
+    <!-- Header Section -->
+    <header>
+        <h1>Task & Study Planner</h1>
+
+        <!-- Icons container on the top-right corner -->
+        <div class="icon-bar">
+            <!-- Dark/Light Mode Icon -->
+            <i class="fa-solid fa-moon" id="modeIcon" onclick="toggleMode()"></i>
+            
+        </div>
+    </header>
+
+    <!-- Sign Up Container -->
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signupForm" onsubmit="handleSignUp(event)">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Create Account</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Task & Study Planner. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Handling Sign Up -->
+    <script>
+        // Function to toggle between light and dark mode
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            body.classList.toggle('dark-mode');
+            updateIcon();  // Change the icon based on mode
+        }
+
+        // Function to update the mode icon
+        function updateIcon() {
+            const modeIcon = document.getElementById("modeIcon");
+            if (document.body.classList.contains('dark-mode')) {
+                modeIcon.classList.remove('fa-moon');
+                modeIcon.classList.add('fa-sun');  // Change to sun icon for dark mode
+            } else {
+                modeIcon.classList.remove('fa-sun');
+                modeIcon.classList.add('fa-moon');  // Change to moon icon for light mode
+            }
+        }
+
+        // Handle sign up form submission
+        function handleSignUp(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Add functionality to save user data (e.g., AJAX request or local storage)
+            alert(`Account created!\nUsername: ${username}\nEmail: ${email}`);
+            // Redirect to login page or another page after sign-up
+            window.location.href="login.html"; // Redirect after signup
+        }
+    </script>
+    <!-- Link to css-->
+    <link rel="stylesheet" href="styles.css">
+    <!--link to JavaScript -->
+    <script src="script.js"></script>
+    <script src="server.js"></script>
+
+</body>
+</html>
